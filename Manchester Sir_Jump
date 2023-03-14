@@ -1,0 +1,75 @@
+#variables
+px = 55
+py = 55
+bx = 100
+by = 570
+h = 0                 
+y = 300
+g = 0
+colliding = True
+jumpc = 0
+a = "kid.jpg.jpg" #Player Model
+b = "trampoline.jpg.jpg" #Platform Model
+def setup():
+    size (600, 600)     #Setup - Window + Rectmode
+    rectMode(CENTER)
+    frameRate(60)
+
+def draw():
+    global px, py, bx, by, h, y, g,colliding, jumpc, a #global and background
+    background (100, 100, 100)
+    
+    image(loadImage("kid.jpg.jpg"), px, py-50, 75, 75)
+    image(loadImage("trampoline.jpg.jpg"), bx-40, by-10, 80, 20) #Player and platform models
+    
+    textSize(50)
+    fill (255, 0, 0)
+    text("J U M P NOW", 50, 50) #Instructions
+    text("score: "+ str(jumpc), 300, 300)
+    textSize(20)
+    text("if you fall too fast you will fall right though the trampoline", 20, 150)#instructions Pt2
+    textSize(25)
+    text("...                    or get unlucky (.\ _ /.)", 50, 200)
+    text("hehehe", 200, 250)  #End of instructions
+    fill (255, 255, 255)
+    
+    strokeWeight(10)
+    line(50, 250, 150, 250) #jump line that you need to pass
+    strokeWeight(3)
+    
+    if py < 250:
+        jumpc = jumpc+1.0 #Score Measure
+        print (jumpc)
+        
+    if py <= 0:
+        py = 550 #reset jump fuction if it goes past the top
+        jumpc = 0
+    
+    
+    if colliding == False: #Gravity and jumping
+        py += g
+        g += 1.3
+                                
+    else:
+        g = 0
+        py = by-37 #Collision Pt 1
+        
+        
+    if bx +80 > px and bx < px +50 and by < py+35 and by + 20 > py+35: #Collision Pt 2
+        colliding = True                             
+        py = py+5                           
+
+
+def keyPressed():
+    global px, py, bx, by, h, y, g,colliding #Global again
+    
+    if keyPressed:
+        if key == 'W' or key =='w': #Jumping
+            g -=3
+            colliding = False
+        
+        if key == 'D' or key == 'd': #Left and Right movement
+            px = px+1
+        if key == 'A' or key == 'a':
+            px = px-1
+            
